@@ -8,6 +8,9 @@ using Services;
 using Services.Abstractions;
 
 using AssemblyMapper = Services.AssemblyReference;
+using Store.API.MiddleWares;
+using Microsoft.AspNetCore.Mvc;
+using Shared.ErrorModels;
 
 namespace Store.API
 {
@@ -32,6 +35,23 @@ namespace Store.API
             builder.Services.AddAutoMapper(typeof(AssemblyMapper).Assembly);
             builder.Services.AddScoped<IServiceManager, ServiceManager>();
 
+            builder.Services.Configure<ApiBehaviorOptions>(config =>
+            {
+                config.InvalidModelStateResponseFactory = actionContext =>
+                {
+                    var errors = actionContext.ModelState.Where(m => m.Value.Errors.Any())
+                                 .Select(m => new ValidationError()
+                                 {
+                                     Field = m.Key,
+                                     Errors = m.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                                 }).ToList();
+
+                    var response = new ValidationErrorResponse(errors);
+
+                    return new BadRequestObjectResult(response);
+                };
+            });
+
             var app = builder.Build();
 
             #region Seeding
@@ -39,6 +59,8 @@ namespace Store.API
             var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>(); // Ask CLR to Create an Object from DbInitializer
             await dbInitializer.InitializeAsync(); // Call the InitializeAsync method to Seed the Database 
             #endregion
+
+            app.UseMiddleware<GlobalErrorHandlingMiddleware>();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
