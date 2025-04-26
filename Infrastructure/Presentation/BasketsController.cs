@@ -13,7 +13,7 @@ namespace Presentation
     [Route("api/[controller]")]
     public class BasketsController(IBasketService basketService) : ControllerBase
     {
-        [HttpGet("{id}")] // GET: api/baskets?id=asd
+        [HttpGet] // GET: api/baskets?id=asd
         public async Task<IActionResult> GetBasketById(string id)
         {
             var result = await basketService.GetBasketAsync(id);
@@ -27,7 +27,7 @@ namespace Presentation
             return Ok(result);
         }
 
-        [HttpDelete("{id}")] // DELETE: api/baskets?id=asd
+        [HttpDelete] // DELETE: api/baskets?id=asd
         public async Task<IActionResult> DeleteBasket(string id)
         {
             await basketService.DeleteBasketAsync(id);
