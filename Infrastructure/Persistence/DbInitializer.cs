@@ -1,7 +1,10 @@
 ﻿using Domain.Interfaces;
 using Domain.Models;
+using Domain.Models.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
+using Persistence.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,14 +14,16 @@ using System.Threading.Tasks;
 
 namespace Persistence
 {
-    public class DbInitializer : IDbInitializer
+    public class DbInitializer(StoreDbContext context,
+                 StoreIdentityDbContext identityContext,
+                 UserManager<AppUser> userManager,
+                 RoleManager<IdentityRole> roleManager) : IDbInitializer
     {
-        private readonly StoreDbContext _context;
+        private readonly StoreDbContext _context = context;
+        private readonly StoreIdentityDbContext _identityContext = identityContext;
+        private readonly UserManager<AppUser> _userManager = userManager;
+        private readonly RoleManager<IdentityRole> _roleManager = roleManager;
 
-        public DbInitializer(StoreDbContext context)
-        {
-            _context = context;
-        }
         public async Task InitializeAsync()
         {
             // Create Database If it doesn't exist && apply to any pending Migrations
@@ -37,7 +42,7 @@ namespace Persistence
                 var types = JsonSerializer.Deserialize<List<ProductType>>(typesData);
 
                 // 3. Add List<ProductTypes> to DbSet<ProductTypes>
-                if(types is not null && types.Any())
+                if (types is not null && types.Any())
                 {
                     await _context.ProductTypes.AddRangeAsync(types);
                     await _context.SaveChangesAsync();
@@ -81,6 +86,46 @@ namespace Persistence
                 }
             }
 
+        }
+
+        public async Task InitializeIdentityAsync()
+        {
+            // Create Database If it doesn't exist && apply to any pending Migrations
+            if (_identityContext.Database.GetPendingMigrations().Any())
+                await _identityContext.Database.MigrateAsync();
+
+            // Seeding
+            if (!_roleManager.Roles.Any())
+            {
+                await _roleManager.CreateAsync(new IdentityRole("SuperAdmin"));
+                await _roleManager.CreateAsync(new IdentityRole("Admin"));
+            }
+
+            if (!_userManager.Users.Any())
+            {
+                var superAdminUser = new AppUser()
+                {
+                    DisplayName = "Super Admin",
+                    Email = "SuperAdmin@gmail.com",
+                    UserName = "SuperAdmin",
+                    PhoneNumber = "0123456789"
+                };
+
+                var adminUser = new AppUser()
+                {
+                    DisplayName = "Admin",
+                    Email = "Admin@gmail.com",
+                    UserName = "Admin",
+                    PhoneNumber = "0987654321"
+                };
+
+                await _userManager.CreateAsync(superAdminUser, "P@ssw0rd");
+                await _userManager.CreateAsync(adminUser, "P@ssw0rd");
+
+                await _userManager.AddToRoleAsync(superAdminUser, "SuperAdmin");
+                await _userManager.AddToRoleAsync(adminUser, "Admin");
+
+            }
         }
     }
 }
