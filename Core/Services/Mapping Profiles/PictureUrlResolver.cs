@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Models;
 using Microsoft.Extensions.Configuration;
-using Shared;
+using Shared.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
