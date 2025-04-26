@@ -20,11 +20,9 @@ namespace Services
         public async Task<PaginationResponse<ProductDto>> GetAllProductsAsync(ProductSpecificationsParameters specParams)
         {
             var spec = new ProductWithTypesAndBrandsSpecifications(specParams);
-
             var products = await unitOfWork.GetRepository<Product, int>().GetAllAsync(spec);
 
             var specCount = new ProductWithCountSpecifications(specParams);
-
             var count = await unitOfWork.GetRepository<Product, int>().CountAsync(specCount);
 
             var result = mapper.Map<IEnumerable<ProductDto>>(products);
