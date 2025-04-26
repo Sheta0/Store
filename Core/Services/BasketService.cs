@@ -1,0 +1,45 @@
+﻿using AutoMapper;
+using Domain.Exceptions;
+using Domain.Interfaces;
+using Domain.Models;
+using Services.Abstractions;
+using Shared.Dtos;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Services
+{
+    public class BasketService(IBasketRepository basketRepository, IMapper mapper) : IBasketService
+    {
+
+        public async Task<BasketDto?> GetBasketAsync(string id)
+        {
+            var basket = await basketRepository.GetBasketAsync(id);
+            if(basket is null) throw new BasketNotFoundException(id);
+            var result = mapper.Map<BasketDto>(basket);
+            return result;
+        }
+
+        public async Task<BasketDto?> UpdateBasketAsync(BasketDto basketdto)
+        {
+            var basket = mapper.Map<CustomerBasket>(basketdto);
+
+            basket = await basketRepository.UpdateBasketAsync(basket, TimeSpan.FromDays(30));
+            if (basket is null) throw new BasketCreateOrUpdateBadRequestException();
+
+            var result = mapper.Map<BasketDto>(basket);
+            return result;
+        }
+
+        public async Task<bool> DeleteBasketAsync(string id)
+        {
+            var flag = await basketRepository.DeleteBasketAsync(id);
+            if (!flag) throw new BasketDeleteBadRequestException();
+
+            return flag;
+        }
+    }
+}

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Exceptions
 {
-    public abstract class NotFoundException(string message) : Exception(message)
+    public abstract class BadRequestException(string message) : Exception(message)
     {
 
-    } 
+    }
 }
