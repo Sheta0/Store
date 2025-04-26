@@ -14,6 +14,7 @@ namespace Services
         {
             services.AddAutoMapper(typeof(AssemblyReference).Assembly);
             services.AddScoped<IServiceManager, ServiceManager>();
+            services.AddScoped<IBasketService, BasketService>();
 
             return services;
         }

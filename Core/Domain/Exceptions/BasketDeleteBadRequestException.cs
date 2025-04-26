@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Exceptions
 {
-    public abstract class NotFoundException(string message) : Exception(message)
+    public class BasketDeleteBadRequestException() : BadRequestException($"Invalid Delete Basket Operation")
     {
-
-    } 
+    }
 }
