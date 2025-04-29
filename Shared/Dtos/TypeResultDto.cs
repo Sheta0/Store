@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Exceptions
+namespace Shared.Dtos
 {
-    public class BasketDeleteBadRequestException() : BadRequestException("Invalid Delete Basket Operation")
+    public class TypeResultDto
     {
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }
