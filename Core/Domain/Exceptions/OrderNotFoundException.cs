@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shared.Dtos
+namespace Domain.Exceptions
 {
-    public class TypeDto
+    public class OrderNotFoundException(Guid id) : NotFoundException($"Order with id {id} was not found")
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
     }
 }

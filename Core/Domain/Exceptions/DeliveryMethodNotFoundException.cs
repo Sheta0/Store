@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Exceptions
 {
-    public class BasketDeleteBadRequestException() : BadRequestException("Invalid Delete Basket Operation")
+    public class DeliveryMethodNotFoundException(int id) : NotFoundException($"Delivey Method with Id {id} was not found")
     {
     }
 }
