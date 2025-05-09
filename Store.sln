@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35913.81 d17.13
+VisualStudioVersion = 17.13.35913.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store.API", "Store.API\Store.API.csproj", "{6183CB23-10DC-49CC-979B-988FDAD62770}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Infrastructure\Presentation\Presentation.csproj", "{60084058-B7C1-4457-9993-DF4101C30A49}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{099CE6D1-B49D-4316-AEA6-65C708B8710E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Admin Dashboard", "Admin Dashboard\Admin Dashboard.csproj", "{B7696A7A-12DE-4EBC-A213-F6CD43AEE2E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,10 @@ Global
 		{099CE6D1-B49D-4316-AEA6-65C708B8710E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{099CE6D1-B49D-4316-AEA6-65C708B8710E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{099CE6D1-B49D-4316-AEA6-65C708B8710E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7696A7A-12DE-4EBC-A213-F6CD43AEE2E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7696A7A-12DE-4EBC-A213-F6CD43AEE2E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7696A7A-12DE-4EBC-A213-F6CD43AEE2E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7696A7A-12DE-4EBC-A213-F6CD43AEE2E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
