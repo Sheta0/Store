@@ -41,6 +41,7 @@ namespace Presentation
             return Ok(result);
         }
 
+        [AllowAnonymous]
         [HttpGet("deliveryMethods")] // GET: api/orders/deliveryMethods
         public async Task<IActionResult> GetDeliveryMethods()
         {

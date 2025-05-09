@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserAddress = Domain.Models.Identity.Address;
+using OrderAddress = Domain.Models.OrderModels.Address;
 
 namespace Services.Mapping_Profiles
 {
@@ -13,7 +15,8 @@ namespace Services.Mapping_Profiles
     {
         public OrderProfile()
         {
-            CreateMap<Address, AddressDto>().ReverseMap();
+            CreateMap<OrderAddress, AddressDto>().ReverseMap();
+            CreateMap<UserAddress, AddressDto>().ReverseMap();
 
             CreateMap<OrderItem, OrderItemDto>()
                 .ForMember(d => d.ProductId, o => o.MapFrom(s => s.ProductInOrderItem.ProductId))
