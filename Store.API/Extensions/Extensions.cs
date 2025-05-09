@@ -3,6 +3,7 @@ using Domain.Models.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Persistence;
 using Persistence.Identity;
@@ -26,6 +27,18 @@ namespace Store.API.Extensions
             services.AddApplicationSerivces(configuration);
             services.AddIdentityServices();
             services.ConfigureJwtServices(configuration);
+
+            services.AddCors(config =>
+            {
+                config.AddPolicy("MyPolicy", options =>
+                {
+                    options.AllowAnyHeader()
+                           .AllowAnyMethod()
+                           .AllowCredentials()
+                           .WithOrigins("http://localhost:4200");
+                });
+            });
+
 
             return services;
         }
@@ -114,9 +127,13 @@ namespace Store.API.Extensions
                 app.UseSwaggerUI();
             }
 
+            app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
-            app.UseHttpsRedirection();
+            app.UseCors("MyPolicy");
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
