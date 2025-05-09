@@ -1,0 +1,45 @@
+﻿@model IdentityRole
+@{
+    ViewData["Title"] = "Delete Role";
+}
+
+<div class="row mb-3">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-action="Index">Roles</a></li>
+                <li class="breadcrumb-item active">Delete Role</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="card border-danger">
+    <div class="card-header bg-danger text-white">
+        <h2 class="card-title">Delete Role</h2>
+    </div>
+    <div class="card-body">
+        <div class="alert alert-warning">
+            <h4 class="alert-heading">Warning!</h4>
+            <p>Are you sure you want to delete the role <strong>"@Model.Name"</strong>?</p>
+            <p>This action cannot be undone and might impact users who are currently assigned this role.</p>
+        </div>
+
+        <dl class="row">
+            <dt class="col-sm-3">Role Name</dt>
+            <dd class="col-sm-9">@Model.Name</dd>
+
+            <dt class="col-sm-3">Role ID</dt>
+            <dd class="col-sm-9">@Model.Id</dd>
+        </dl>
+
+        <form asp-action="DeleteConfirmed" method="post">
+            <input type="hidden" name="id" value="@Model.Id" />
+
+            <div class="d-flex justify-content-between mt-4">
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-danger">Delete Role</button>
+            </div>
+        </form>
+    </div>
+</div>
