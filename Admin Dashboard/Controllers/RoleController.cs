@@ -25,10 +25,7 @@ namespace Admin_Dashboard.Controllers
         public async Task<IActionResult> Create(RoleFormViewModel model)
         {
             if (!ModelState.IsValid)
-            {
-                // Return to the view with validation errors
                 return View(model);
-            }
 
             var roleExists = await roleManager.RoleExistsAsync(model.Name);
             if (roleExists)
@@ -103,7 +100,6 @@ namespace Admin_Dashboard.Controllers
                 return NotFound();
             }
 
-            // Only check for name collision if the name is actually being changed
             if (role.Name != model.Name)
             {
                 var roleWithSameName = await roleManager.FindByNameAsync(model.Name);

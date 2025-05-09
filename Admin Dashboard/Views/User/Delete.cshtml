@@ -1,0 +1,65 @@
+﻿@model UserViewModel
+@{
+    ViewData["Title"] = "Delete User";
+}
+
+<div class="row mb-3">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-action="Index">Users</a></li>
+                <li class="breadcrumb-item active">Delete User</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="card border-danger">
+    <div class="card-header bg-danger text-white">
+        <h2 class="card-title">Delete User</h2>
+    </div>
+    <div class="card-body">
+        <div class="alert alert-warning">
+            <h4 class="alert-heading">Warning!</h4>
+            <p>Are you sure you want to delete the user <strong>"@Model.UserName"</strong>?</p>
+            <p>This action cannot be undone and will permanently remove the user's account and associated data.</p>
+        </div>
+
+        <dl class="row">
+            <dt class="col-sm-3">Username</dt>
+            <dd class="col-sm-9">@Model.UserName</dd>
+
+            <dt class="col-sm-3">Display Name</dt>
+            <dd class="col-sm-9">@Model.DisplayName</dd>
+
+            <dt class="col-sm-3">Email</dt>
+            <dd class="col-sm-9">@Model.Email</dd>
+
+            <dt class="col-sm-3">Roles</dt>
+            <dd class="col-sm-9">
+                @if (Model.Roles != null && Model.Roles.Any())
+                {
+                    <div class="d-flex flex-wrap gap-1">
+                        @foreach (var role in Model.Roles)
+                        {
+                            <span class="badge bg-primary">@role</span>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <span class="text-muted">No roles assigned</span>
+                }
+            </dd>
+        </dl>
+
+        <form asp-action="DeleteConfirmed" method="post">
+            <input type="hidden" name="id" value="@Model.Id" />
+
+            <div class="d-flex justify-content-between mt-4">
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-danger">Delete User</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,3 +1,4 @@
+using Admin_Dashboard.Mapping_Profiles;
 using Domain.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,8 @@ namespace Admin_Dashboard
             builder.Services.AddIdentity<AppUser, IdentityRole>()
                    .AddEntityFrameworkStores<StoreIdentityDbContext>();
 
+            builder.Services.AddAutoMapper(typeof(UserProfile).Assembly);
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -42,7 +45,7 @@ namespace Admin_Dashboard
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Admin}/{action=Login}/{id?}");
 
             app.Run();
         }
